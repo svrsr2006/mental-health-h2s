@@ -1,0 +1,75 @@
+flowchart TD
+  %% Lanes
+  subgraph User
+    A[Open App / Website]
+    B[Sign Up / Log In]
+    C[Complete Onboarding]
+    D[Daily Check-in / Journaling]
+    E[View Recommendations]
+    F[View Progress & Insights]
+  end
+
+  subgraph Backend Services
+    G[Auth Service]
+    H[Profile & Preferences Store]
+    I[NLP Processing & Sentiment]
+    J[Risk Assessment Model]
+    K[Recommendation Engine]
+    L[Content Library API]
+    M[Progress Tracking Service]
+    N[Alert/Notification Service]
+    O[Admin Analytics & CMS]
+  end
+
+  subgraph Integrations
+    P[(Database)]
+    Q[(Analytics / Telemetry)]
+    R[(3rd-party Content / SOS Lines)]
+  end
+
+  %% Edges: User Journey
+  A --> B
+  B -->|Credentials / OAuth| G
+  G -->|Token| B
+  B --> C
+  C -->|Demographics, goals, preferences| H
+  C --> E
+
+  %% Daily Interaction
+  D -->|Text/journal, mood, survey| I
+  I -->|Entities, sentiment, topics| J
+  J -->|Risk score| K
+  K -->|Personalized plan & content IDs| L
+  L -->|Content details| E
+
+  %% Progress & Insights
+  D --> M
+  K --> M
+  M --> F
+
+  %% Alerts & Safety
+  J -->|High risk?| N
+  N -->|In-app alert / caregiver / hotline| R
+
+  %% Data & Storage
+  H --- P
+  I --- Q
+  J --- Q
+  M --- P
+  K --- P
+  L --- P
+  N --- Q
+  O --- P
+
+  %% Admin / Ops
+  O -->|Manage content, taxonomies| L
+  O -->|Monitor KPIs, cohorts| Q
+
+  %% Notes
+  classDef user fill:#e3f2fd,stroke:#42a5f5,color:#0d47a1;
+  classDef svc fill:#f3e5f5,stroke:#ab47bc,color:#4a148c;
+  classDef ext fill:#fff3e0,stroke:#fb8c00,color:#e65100;
+
+  class A,B,C,D,E,F user
+  class G,H,I,J,K,L,M,N,O svc
+  class P,Q,R ext
